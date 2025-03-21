@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System</title>
+    <link rel="stylesheet" href="CSS/index.css">
+</head>
+
+<body>
+    <div class="back-fill">
+        <!-- Floating Navigation Bar -->
+        <nav id="navbar">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li style="float:right"><a href="login.php">Login</a></li>
+            </ul>
+        </nav>
+
+        <!-- Home Section -->
+        <section id="home">
+            <div class="container">
+                <img src="./IMAGES/logo.jpg" alt="School Logo">
+                <h4>Welcome to Our School</h4>
+                <p>Brief description of the school goes here.</p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery">
+            <div class="container">
+                <h2>Gallery</h2>
+                <div class="gallery-grid">
+                    <img src="./IMAGES/1.jpg" alt=" Image 1">
+                    <img src="./IMAGES/2.jpg" alt=" Image 2">
+                    <img src="./IMAGES/3.jpg" alt=" Image 3">
+                    <img src="./IMAGES/4.jpg" alt=" Image 4">
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <h2>About Us</h2>
+                <p>Detailed information about the school, its history, mission, and values.</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="floating-window">
+                <h2>Contact Us</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" id="email" placeholder="Enter email">
+                        <small>We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="4" placeholder="Enter your message"></textarea>
+                    </div>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2023 School Management System. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>
