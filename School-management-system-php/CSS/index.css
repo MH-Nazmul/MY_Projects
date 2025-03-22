@@ -62,17 +62,17 @@ body {
 #navbar {
     position: relative;
     top: 70px;
-    width: 70%;
-    z-index: 1000;
+    text-align: center;
+    width: 60%;
     padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
     border: 2px solid #ffffff;
-    margin: 10px auto;
     background-color: #333;
     z-index: 1000;
     opacity: 70%;
     overflow: hidden;
+    margin: 0 20%;
 }
 
 #navbar ul {
