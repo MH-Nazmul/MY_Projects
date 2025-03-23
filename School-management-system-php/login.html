@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="./CSS/login.css">
+</head>
+
+<body>
+    <div class="back-fill">
+        <div class="login-container">
+            <h2>Login</h2>
+            <form id="login-form" action="verify_login.php" method="POST">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="input-group">
+                    <label for="role">Login As</label>
+                    <div class="dropdown">
+                        <button type="button" class="dropbtn" id="role-button">Select Role</button>
+                        <div class="dropdown-content">
+                            <a href="#" data-role="teacher">Teacher</a>
+                            <a href="#" data-role="admin">Admin</a>
+                            <a href="#" data-role="student">Student</a>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selected-role" name="role" required>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+                <button type="button" class="home-btn" onclick="window.location.href='index.html'">Home</button>
+            </form>
+        </div>
+
+        <script>
+            // JavaScript to handle dropdown selection
+            document.querySelectorAll('.dropdown-content a').forEach(item => {
+                item.addEventListener('click', function (e) {
+                    e.preventDefault(); // Prevent the link from navigating
+                    const selectedRole = this.getAttribute('data-role'); // Get the selected role
+                    document.getElementById('role-button').textContent = selectedRole; // Update the button text
+                    document.getElementById('selected-role').value = selectedRole; // Update the hidden input
+                });
+            });
+        </script>
+    </div>
+</body>
+
+</html>

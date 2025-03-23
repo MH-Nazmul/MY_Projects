@@ -4,8 +4,8 @@
 html {
     scroll-behavior: smooth;
     height: 100%;
-    margin: 0%;
-    padding-top: 0%;
+    margin: 0;
+    padding-top: 0;
     scroll-padding-top: 80px;
 }
 
@@ -17,33 +17,31 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     font-family: Arial, sans-serif;
-    margin: 0%;
-    padding-top: 0%;
-
+    margin: 0;
+    padding-top: 0;
 }
 
 .back-fill {
     background: rgba(0, 0, 0, 0.7);
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .container h4 {
     color: #eee;
     font-size: 40px;
-    font-family: 'lobster', cursive;
+    font-family: 'Lobster', cursive;
     margin: 5px;
 }
 
 .container h2 {
     color: #eee;
     font-size: 40px;
-    font-family: 'lobster', cursive;
+    font-family: 'Lobster', cursive;
     margin: 10px;
     padding-bottom: 2%;
 }
 
 .container p {
-
     color: #222;
     background: rgba(255, 255, 255, 0.5);
     padding: 5px;
@@ -53,49 +51,73 @@ body {
     margin: 5px;
 }
 
-*/ .container {
+.container {
     width: 80%;
-    margin: 0;
+    margin: 0 auto;
+    /* Center the container */
 }
 
 /* Floating Navigation Bar */
 #navbar {
     position: relative;
-    top: 70px;
-    text-align: center;
-    width: 60%;
-    padding: 10px 20px;
+    top: 20px;
+    left: 0;
+    right: 0;
+    padding: 10px 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
-    border: 2px solid #ffffff;
+    border: 2px solid #04719c;
     background-color: #333;
     z-index: 1000;
-    opacity: 70%;
-    overflow: hidden;
-    margin: 0 20%;
+    opacity: 0.7;
+    margin: 0 auto;
+    /* Center the navbar */
+    width: 90%;
+    /* Adjust width for responsiveness */
 }
 
 #navbar ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    gap: 5px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
 }
 
-#navbar li {
-    float: left;
-}
 
-#navbar li a {
-    display: block;
+#float-right {
+    margin-left: auto;
+    background-color: #555555;
     color: white;
     text-align: center;
-    padding: 14px 20px;
+    padding: 10px 15px;
     text-decoration: none;
+    margin-top: 5px;
+    border-radius: 25%;
+    font-size: large;
 }
 
-#navbar li a:hover {
-    background-color: #575757;
+#box {
+    display: block;
+    color: white;
+    background-color: #555555;
+    font-size: large;
+    text-align: center;
+    padding: 10px 15px;
+    text-decoration: none;
+    margin: 5px 0;
+    border-radius: 10dvw;
+    flex-shrink: 1;
+}
+
+#box:hover {
+    background-color: #04719c;
+}
+
+#float-right:hover {
+    background-color: #04719c;
 }
 
 /* Home Section */
@@ -103,10 +125,8 @@ body {
     padding-top: 20%;
     padding-bottom: 20%;
     margin-bottom: 20%;
-    /* To account for the fixed navbar */
     text-align: center;
     font-family: 'Lobster', cursive;
-    padding-bottom: 40px;
 }
 
 #home img {
@@ -116,14 +136,9 @@ body {
 
 /* Gallery Section */
 #gallery {
-    padding-top: 40%;
-    padding-top: 40%;
-    padding-bottom: 10%;
-    margin-bottom: 20%;
-    margin-left: 10%;
-    margin-right: 10%;
     padding: 40px 0;
-    background-color: #3333335e;
+    margin: 0 10%;
+    background-color: rgba(51, 51, 51, 0.37);
     text-align: center;
 }
 
@@ -142,31 +157,25 @@ body {
 /* About Section */
 #about {
     text-align: center;
-    align-items: center;
     padding: 40px;
-    padding-bottom: 10%;
     margin-bottom: 40%;
 }
 
 /* Floating Window Styles */
 .floating-window {
-    width: 400px;
-    /* Adjust the width as needed */
+    width: 90%;
+    /* Adjust width for responsiveness */
+    max-width: 400px;
+    /* Maximum width */
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    /* Shadow effect */
     position: relative;
-    /* Fixed position */
     top: 50%;
-    /* Center vertically */
     left: 50%;
-    /* Center horizontally */
     transform: translate(-50%, -50%);
-    /* Center the window */
     z-index: 1000;
-    /* Ensure it appears above other content */
 }
 
 /* Form Styles */
@@ -198,14 +207,12 @@ body {
 
 .floating-window textarea {
     resize: vertical;
-    /* Allow vertical resizing */
 }
 
 .floating-window button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
-    /* Green background */
     color: white;
     border: none;
     border-radius: 5px;
@@ -215,7 +222,6 @@ body {
 
 .floating-window button:hover {
     background-color: #45a049;
-    /* Darker green on hover */
 }
 
 /* Footer */
@@ -223,5 +229,80 @@ footer {
     text-align: center;
     padding: 20px;
     color: #ccc;
+    background-color: rgba(0, 0, 0, 0.7);
+}
 
+/* Media Queries for Responsiveness */
+@media (max-width: 767px) {
+
+    /* Mobile devices */
+    .container h4,
+    .container h2 {
+        font-size: 30px;
+    }
+
+    #navbar {
+        width: 95%;
+        /* Full width for mobile */
+        padding: 10px;
+    }
+
+    #navbar li a {
+        padding: 8px 10px;
+        /* Smaller padding for mobile */
+    }
+
+    #home {
+        padding-top: 30%;
+        padding-bottom: 30%;
+    }
+
+    .gallery-grid img {
+        width: 100%;
+        /* Full width for mobile */
+        margin-bottom: 10px;
+    }
+
+    .floating-window {
+        width: 95%;
+        /* Full width for mobile */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    /* Tablet devices */
+    .container h4,
+    .container h2 {
+        font-size: 35px;
+    }
+
+    #navbar {
+        width: 80%;
+        /* Adjust width for tablets */
+    }
+
+    .gallery-grid img {
+        width: 45%;
+        /* Two images per row on tablets */
+    }
+}
+
+@media (min-width: 1024px) {
+
+    /* Desktop devices */
+    .container {
+        width: 70%;
+        /* Adjust container width for desktop */
+    }
+
+    #navbar {
+        width: 60%;
+        /* Adjust navbar width for desktop */
+    }
+
+    .gallery-grid img {
+        width: 30%;
+        /* Three images per row on desktop */
+    }
 }
