@@ -151,7 +151,7 @@ body {
 /* Gallery Section */
 #gallery {
     padding: 40px 0;
-    margin: 0 10%;
+    margin: 15% 10%;
     background-color: rgba(51, 51, 51, 0.37);
     text-align: center;
 }
@@ -172,7 +172,7 @@ body {
 #about {
     text-align: center;
     padding: 40px;
-    margin-bottom: 40%;
+    margin: 50% 10%;
 }
 
 /* Floating Window Styles */
@@ -428,9 +428,118 @@ footer {
         transform: scale(1.2);
     }
 
+    /* Home Section */
+    #home {
+        padding-top: 20%;
+        padding-bottom: 20%;
+        margin-bottom: 20%;
+        text-align: center;
+        font-family: 'Lobster', cursive;
+    }
+
+    #home img {
+        width: 150px;
+        height: auto;
+    }
+
+    /* Gallery Section */
+    #gallery {
+        padding: 40px 0;
+        margin: 15% 10%;
+        background-color: rgba(51, 51, 51, 0.37);
+        text-align: center;
+    }
+
+    .gallery-grid {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
     .gallery-grid img {
-        width: 45%;
-        /* Two images per row on tablets */
+        width: 30%;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
+    /* About Section */
+    #about {
+        text-align: center;
+        padding: 40px;
+        margin: 50% 10%;
+    }
+
+    /* Floating Window Styles */
+    .floating-window {
+        width: 90%;
+        top: 60%;
+        /* Adjust width for responsiveness */
+        max-width: 400px;
+        max-height: 400px;
+        /* Maximum width */
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+    }
+
+    /* Form Styles */
+    .floating-window h2 {
+        margin-top: 0;
+        font-size: 1.5rem;
+        color: #333;
+        text-align: center;
+    }
+
+    .floating-window .form-group {
+        margin-bottom: 15px;
+    }
+
+    .floating-window label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .floating-window input,
+    .floating-window textarea {
+        width: 100%;
+        height: auto;
+        padding: auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .floating-window textarea {
+        resize: vertical;
+    }
+
+    .floating-window button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .floating-window button:hover {
+        background-color: #45a049;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 20px;
+        color: #ccc;
+        background-color: rgba(0, 0, 0, 0.7);
     }
 }
 
