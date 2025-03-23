@@ -60,7 +60,7 @@ body {
 /* Floating Navigation Bar */
 #navbar {
     position: relative;
-    top: 20px;
+    top: 40px;
     left: 0;
     right: 0;
     padding: 10px 10px;
@@ -76,49 +76,63 @@ body {
     /* Adjust width for responsiveness */
 }
 
-#navbar ul {
+#navbar div {
     list-style-type: none;
     margin: 0;
     padding: 0;
     gap: 5px;
+    margin-left: 2%;
+    margin-right: 2%;
     display: flex;
     justify-content: flex-start;
     flex-wrap: nowrap;
+    flex-shrink: 1;
 }
 
 
 #float-right {
     margin-left: auto;
-    background-color: #555555;
-    color: white;
-    text-align: center;
-    padding: 10px 15px;
-    text-decoration: none;
-    margin-top: 5px;
-    border-radius: 25%;
-    font-size: large;
 }
 
 #box {
-    display: block;
+    display: flex;
     color: white;
     background-color: #555555;
     font-size: large;
     text-align: center;
-    padding: 10px 15px;
-    text-decoration: none;
+    padding: 1% 2.5%;
+    text-decoration: solid;
     margin: 5px 0;
-    border-radius: 10dvw;
+    border-radius: .5rem;
     flex-shrink: 1;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.box {
+    color: white;
+    background-color: #555555;
+    font-size: large;
+    text-align: center;
+    padding: 1% 2.5%;
+    text-decoration: solid;
+    margin: 5px 0;
+    border-radius: .5rem;
+    flex-shrink: 1;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 #box:hover {
     background-color: #04719c;
+    cursor: pointer;
+    transform: translateY(-5px);
 }
 
-#float-right:hover {
+.box:hover {
     background-color: #04719c;
+    cursor: pointer;
+    transform: scale(1.2);
 }
+
 
 /* Home Section */
 #home {
@@ -241,7 +255,7 @@ footer {
     }
 
     #navbar {
-        width: 95%;
+        width: 80%;
         /* Full width for mobile */
         padding: 10px;
     }
@@ -257,13 +271,13 @@ footer {
     }
 
     .gallery-grid img {
-        width: 100%;
+        width: 50%;
         /* Full width for mobile */
         margin-bottom: 10px;
     }
 
     .floating-window {
-        width: 95%;
+        width: 60%;
         /* Full width for mobile */
     }
 }
