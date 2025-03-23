@@ -255,14 +255,76 @@ footer {
     }
 
     #navbar {
-        width: 80%;
-        /* Full width for mobile */
-        padding: 10px;
+        position: relative;
+        top: 40px;
+        padding: 5px 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 2px solid #04719c;
+        background-color: #333;
+        z-index: 1000;
+        opacity: 0.7;
+        margin: 0 auto;
+        /* Center the navbar */
+        width: 90%;
+        /* Adjust width for responsiveness */
     }
 
-    #navbar li a {
-        padding: 8px 10px;
-        /* Smaller padding for mobile */
+    #navbar div {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        gap: 5px;
+        margin-left: 2%;
+        margin-right: 2%;
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        flex-shrink: 1;
+    }
+
+
+    #float-right {
+        margin-left: auto;
+    }
+
+    #box {
+        display: flex;
+        color: white;
+        background-color: #555555;
+        font-size: small;
+        text-align: center;
+        padding: 1% 2.5%;
+        text-decoration: solid;
+        margin: 3px 0;
+        border-radius: .5rem;
+        flex-shrink: 1;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .box {
+        color: white;
+        background-color: #555555;
+        font-size: large;
+        text-align: center;
+        padding: 1% 2.5%;
+        text-decoration: solid;
+        margin: 3px 0;
+        border-radius: .5rem;
+        flex-shrink: 1;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    #box:hover {
+        background-color: #04719c;
+        cursor: pointer;
+        transform: translateY(-5px);
+    }
+
+    .box:hover {
+        background-color: #04719c;
+        cursor: pointer;
+        transform: scale(1.2);
     }
 
     #home {
