@@ -178,8 +178,10 @@ body {
 /* Floating Window Styles */
 .floating-window {
     width: 90%;
+    top: 60%;
     /* Adjust width for responsiveness */
     max-width: 400px;
+    max-height: 400px;
     /* Maximum width */
     background-color: #fff;
     padding: 20px;
@@ -212,7 +214,8 @@ body {
 .floating-window input,
 .floating-window textarea {
     width: 100%;
-    padding: 10px;
+    height: auto;
+    padding: auto;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
