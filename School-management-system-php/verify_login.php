@@ -30,10 +30,10 @@ switch ($role) {
         $table = 'admin';
         break;
     case 'teacher':     
-        $table = 'teacher';
+        $table = 'teachers';
         break;
     case "student":
-        $table = 'student';
+        $table = 'students';
         break;
     default:
         die("Invalid role selected.");
@@ -62,10 +62,10 @@ if ($user) {
                 header("Location:admin_dashboard/admin_dashboard.php");
                 break;
             case 'teacher':
-                header("Location:teacher_dashboard.php");
+                header("Location:admin_dashboard/teacher_dashboard.php");
                 break;
             case 'student':
-                header("Location:student_dashboard.php");
+                header("Location:student_dashboard/student_dashboard.php");
                 break;
             default:
                 die("Invalid role selected.");

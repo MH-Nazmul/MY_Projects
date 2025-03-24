@@ -1,6 +1,4 @@
 <?php
-// admin_dashboard.php
-
 // Start the session
 session_start();
 
@@ -8,6 +6,86 @@ session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../login.html");
     exit();
+}
+
+// Include the database connection
+include '../db_connect.php';
+
+// Generate a CSRF token if not already set
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Initialize variables for messages
+$success_message = '';
+$error_message = '';
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verify CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $error_message = "Invalid CSRF token.";
+    } else {
+        // Get form inputs
+        $fname = trim($_POST['fname']);
+        $lname = trim($_POST['lname']);
+        $username = trim($_POST['username']);
+        $employee_id = trim($_POST['employee_id']);
+        $email = trim($_POST['email']);
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm-password'];
+
+        // Validate inputs
+        if (empty($fname) || empty($lname) || empty($username) || empty($employee_id) || empty($email) || empty($password) || empty($confirm_password)) {
+            $error_message = "All fields are required.";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error_message = "Invalid email address.";
+        } elseif (!is_numeric($employee_id) || $employee_id <= 0) {
+            $error_message = "Employee ID must be a positive number.";
+        } elseif ($password !== $confirm_password) {
+            $error_message = "Passwords do not match.";
+        } else {
+            try {
+                // Check if the username is already in use
+                $stmt = $conn->prepare("SELECT id FROM teachers WHERE username = ?");
+                $stmt->execute([$username]);
+                if ($stmt->fetch()) {
+                    $error_message = "Username is already in use.";
+                } else {
+                    // Check if the employee_id is already in use
+                    $stmt = $conn->prepare("SELECT id FROM teachers WHERE employee_id = ?");
+                    $stmt->execute([$employee_id]);
+                    if ($stmt->fetch()) {
+                        $error_message = "Employee ID is already in use.";
+                    } else {
+                        // Check if the email is already in use
+                        $stmt = $conn->prepare("SELECT id FROM teachers WHERE email = ?");
+                        $stmt->execute([$email]);
+                        if ($stmt->fetch()) {
+                            $error_message = "Email is already in use.";
+                        } else {
+                            // Hash the password
+                            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+                            // Insert the teacher into the database
+                            $stmt = $conn->prepare("
+                                INSERT INTO teachers (employee_id, username, email, password, fname, lname)
+                                VALUES (?, ?, ?, ?, ?, ?)
+                            ");
+                            $stmt->execute([$employee_id, $username, $email, $hashed_password, $fname, $lname]);
+
+                            $success_message = "Teacher admitted successfully.";
+                            
+                            // Clear the form by resetting the POST data
+                            $_POST = array();
+                        }
+                    }
+                }
+            } catch (PDOException $e) {
+                $error_message = "Failed to admit teacher: " . $e->getMessage();
+            }
+        }
+    }
 }
 ?>
 
@@ -17,6 +95,63 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     <meta charset="UTF-8">
     <title>Admit Teacher</title>
     <link rel="stylesheet" href="../CSS/admin.css">
+    <style>
+        /* Form Styles */
+        .main-content form {
+            max-width: 500px;
+            margin: 20px 0;
+        }
+        .main-content label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .main-content input[type="text"],
+        .main-content input[type="email"],
+        .main-content input[type="password"],
+        .main-content input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .main-content button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .main-content button:hover {
+            background-color: #218838;
+        }
+
+        /* Toast Notification Styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .toast.success {
+            background-color: #28a745;
+        }
+        .toast.error {
+            background-color: #dc3545;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -26,6 +161,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             <ul>
                 <li><a href="admit_teacher.php">Admit Teacher</a></li>
                 <li><a href="admit_student.php">Admit Student</a></li>
+                <li><a href="teacher_management.php">Manage Teachers</a></li>
                 <li><a href="manage_student.php">Manage Students</a></li>
                 <li><a href="view_dues.php">View Dues & Info</a></li>
                 <li><a href="settings.php">School Settings</a></li>
@@ -37,14 +173,56 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
         <div class="main-content">
             <h1>Admit Teacher</h1>
-            <?php if (isset($message)) echo "<p class='success'>$message</p>"; ?>
             <form method="POST">
-                <label>Name:</label><input type="text" name="name" required>
-                <label>Email:</label><input type="email" name="email" required>
-                <label>Phone:</label><input type="text" name="phone" required>
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                
+                <label for="fname">First Name:</label>
+                <input type="text" id="fname" name="fname" value="<?php echo isset($_POST['fname']) ? htmlspecialchars($_POST['fname']) : ''; ?>" required>
+                
+                <label for="lname">Last Name:</label>
+                <input type="text" id="lname" name="lname" value="<?php echo isset($_POST['lname']) ? htmlspecialchars($_POST['lname']) : ''; ?>" required>
+                
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>" required>
+                
+                <label for="employee_id">Employee ID:</label>
+                <input type="number" id="employee_id" name="employee_id" value="<?php echo isset($_POST['employee_id']) ? htmlspecialchars($_POST['employee_id']) : ''; ?>" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                
                 <button type="submit">Admit Teacher</button>
             </form>
         </div>
     </div>
+
+    <!-- Toast Notification Container -->
+    <?php if ($success_message) { ?>
+        <div id="toast" class="toast success"><?php echo htmlspecialchars($success_message); ?></div>
+    <?php } elseif ($error_message) { ?>
+        <div id="toast" class="toast error"><?php echo htmlspecialchars($error_message); ?></div>
+    <?php } ?>
+
+    <!-- JavaScript for Toast Notification -->
+    <script>
+        function showToast() {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+                // Remove the query parameter from the URL (if any)
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+        window.onload = showToast;
+    </script>
 </body>
 </html>

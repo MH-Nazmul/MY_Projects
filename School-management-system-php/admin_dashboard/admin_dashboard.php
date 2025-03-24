@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../login.html");
     exit();
 }
+include 'db_connect.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

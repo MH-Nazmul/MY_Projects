@@ -4,11 +4,7 @@
 // Start the session
 session_start();
 
-// Check if the user is logged in as an admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.html");
-    exit();
-}
+
 // Database connection details
 $host = 'localhost'; // Replace with your database host
 $dbname = 'smsdb'; // Replace with your database name

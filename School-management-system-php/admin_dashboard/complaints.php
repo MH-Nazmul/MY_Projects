@@ -3,7 +3,7 @@
 
 // Start the session
 session_start();
-
+include 'db_connect.php';
 // Check if the user is logged in as an admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../login.html");
