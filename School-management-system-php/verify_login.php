@@ -59,7 +59,7 @@ if ($user) {
         // Redirect based on role
         switch ($role) {
             case 'admin':
-                header("Location:admin_dashboard.php");
+                header("Location:admin_dashboard/admin_dashboard.php");
                 break;
             case 'teacher':
                 header("Location:teacher_dashboard.php");
