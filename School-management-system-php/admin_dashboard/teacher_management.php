@@ -34,18 +34,17 @@ try {
     <meta charset="UTF-8">
     <title>Teacher Management</title>
     <link rel="stylesheet" href="../CSS/admin.css">
-    <link rel='stylesheet' href="manage_teacher.css">
+    <link rel="stylesheet" href="manage_teacher.css">
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
             <h2>Admin Dashboard</h2>
             <ul>
-                <li><a href="admit_teacher.php">Admit Teacher</a></li>
                 <li><a href="admit_student.php">Admit Student</a></li>
+                <li><a href="teacher_management.php">Teacher Managements</a></li>
                 <li><a href="manage_student.php">Manage Students</a></li>
                 <li><a href="view_dues.php">View Dues & Info</a></li>
-                <li><a href="teacher_management.php">Manage Teachers</a></li>
                 <li><a href="settings.php">School Settings</a></li>
                 <li><a href="complaints.php">View Complaints</a></li>
                 <li><a href="schedule.php">Class Schedule</a></li>
@@ -55,7 +54,8 @@ try {
         <div class="main-content">
             <h1>Teacher Management</h1>
             <p>View and manage teachers below.</p>
-
+            
+            <form action="admit_teacher.php" style="display:inline"><button id="box" onclick="window.location.href='admit_teacher.php'">Enroll New Teacher</button></form>
             <!-- Display Teachers in a Table -->
             <?php if ($teachers) { ?>
                 <table>
@@ -69,23 +69,26 @@ try {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($teachers as $teacher) { ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($teacher['id'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($teacher['fname'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($teacher['lname'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($teacher['email'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td>
-                                    <!-- Edit Link -->
-                                    <a href="/admin_dashboard/edit_teacher.php?id=<?php echo $teacher['id']; ?>">Edit</a>
-                                    <!-- Delete Form -->
-                                    <form action="/delete_teacher.php" method="POST" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?php echo $teacher['id']; ?>">
-                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this teacher?');">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php } ?>
+                    <?php foreach ($teachers as $teacher) { ?>
+    <tr>
+        <td><?php echo htmlspecialchars($teacher['id'], ENT_QUOTES, 'UTF-8'); ?></td>
+        <td><?php echo htmlspecialchars($teacher['fname'], ENT_QUOTES, 'UTF-8'); ?></td>
+        <td><?php echo htmlspecialchars($teacher['lname'], ENT_QUOTES, 'UTF-8'); ?></td>
+        <td><?php echo htmlspecialchars($teacher['email'], ENT_QUOTES, 'UTF-8'); ?></td>
+        <td>
+        <form action="edit_teacher.php" method="GET" style="display:inline;">
+    <input type="hidden" name="id" value="<?php echo $teacher['id']; ?>">
+    <button type="submit" class="buttona">Edit</button>
+</form>
+            <!-- Delete Form -->
+            <form action="delete_teacher.php" method="POST" style="display:inline;">
+                <input type="hidden" name="id" value="<?php echo $teacher['id']; ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                <button type="submit" class="buttona" onclick="return confirm('Are you sure you want to delete this teacher?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+<?php } ?>
                     </tbody>
                 </table>
             <?php } else { ?>

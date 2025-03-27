@@ -24,8 +24,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <div class="sidebar">
             <h2>Admin Dashboard</h2>
             <ul>
-                <li><a href="admit_teacher.php">Admit Teacher</a></li>
                 <li><a href="admit_student.php">Admit Student</a></li>
+                <li><a href="teacher_management.php">Teacher Managements</a></li>
                 <li><a href="manage_student.php">Manage Students</a></li>
                 <li><a href="view_dues.php">View Dues & Info</a></li>
                 <li><a href="settings.php">School Settings</a></li>

@@ -41,16 +41,17 @@ th {
     background-color: #f4f4f4;
 }
 
-a,
-button {
-    color: #dc3545;
+
+.home-btn {
+    color: #ffffff;
+    background-color: aqua;
     text-decoration: none;
     background: none;
     border: none;
     cursor: pointer;
 }
 
-a:hover,
-button:hover {
+
+.buttona:hover {
     text-decoration: underline;
 }

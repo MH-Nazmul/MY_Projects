@@ -198,6 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="password" id="confirm-password" name="confirm-password" required>
                 
                 <button type="submit">Admit Teacher</button>
+                <button type="submit" onclick="window.location.href='teacher_management.php'">Cancel</button>
             </form>
         </div>
     </div>
