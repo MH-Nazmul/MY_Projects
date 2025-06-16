@@ -1,0 +1,340 @@
+/* General Reset and Base Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f0f4f8 0%, #e1e7ed 100%);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    display: flex;
+}
+
+.main-content {
+    width: 60vw ; /* 100% - sidebar (10vw) - side-panel (18vw) */
+    margin-right: 20vw; /* Matches side-panel’s 18vw width */
+    padding: 2vw;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    background: #ffffff;
+    border-radius: 0.8vw;
+    box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.main-content:hover {
+    transform: translateY(-0.2vw);
+    box-shadow: 0 0.8vw 2.5vw rgba(0, 0, 0, 0.08);
+}
+
+.side-panel {
+    width: 18vw;
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100dvh; /* Dynamic viewport height */
+    background: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
+    padding: 2vw;
+    border-left: 0.06vw solid rgba(255, 255, 255, 0.1);
+    overflow-y: auto;
+    color: #e0e6ed;
+    box-shadow: inset 0 0 1vw rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+.side-panel h3 {
+    color: #ffffff;
+    font-size: clamp(1rem, 1.2vmin, 1.1rem);
+    font-weight: 600;
+    margin-bottom: 1.5vw;
+    border-bottom: 0.06vw solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.6vw;
+}
+
+.side-panel::-webkit-scrollbar {
+    width: 0.5vw;
+}
+
+.side-panel::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 0.25vw;
+}
+
+.side-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-section {
+    margin-bottom: 3vw;
+}
+
+.dashboard-section h2 {
+    color: #10e657;
+    border-bottom: 0.12vw solid #3498db;
+    padding-bottom: 0.5vw;
+    font-size: clamp(1.2rem, 1.8vmin, 1.4rem);
+    font-weight: 600;
+    letter-spacing: 0.03vw;
+    transition: color 0.3s ease;
+}
+
+.dashboard-section h2:hover {
+    color: #3498db;
+}
+
+/* Notice Form */
+.notice-form {
+    background: linear-gradient(145deg, #ffffff 0%, #f9f9f9 100%);
+    padding: 1.5vw;
+    border-radius: 0.8vw;
+    box-shadow: 0 0.4vw 1.2vw rgba(0, 0, 0, 0.05), inset 0 0.06vw 0.2vw rgba(255, 255, 255, 0.5);
+    border: 0.06vw solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 50vw;
+    max-width: 60vw;
+
+}
+
+.notice-form:hover {
+    transform: translateY(-0.2vw);
+    box-shadow: 0 0.6vw 1.8vw rgba(0, 0, 0, 0.08);
+}
+
+.notice-form label {
+    display: block;
+    margin-bottom: 0.6vw;
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: clamp(0.8rem, 1vmin, 0.9rem);
+    letter-spacing: 0.02vw;
+}
+
+.notice-form input,
+.notice-form textarea {
+    width: 100%;
+    padding: 0.8vw;
+    margin-bottom: 1.2vw;
+    border: 0.06vw solid #e0e6ed;
+    border-radius: 0.4vw;
+    background: #f9f9f9;
+    font-size: clamp(0.8rem, 1vmin, 0.9rem);
+    color: #2c3e50;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    box-sizing: border-box;
+}
+
+.notice-form textarea {
+    resize: vertical;
+    min-height: 8vh;
+}
+
+.notice-form input:focus,
+.notice-form textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    background: #ffffff;
+    box-shadow: 0 0 0 0.2vw rgba(52, 152, 219, 0.1);
+}
+
+.notice-form button {
+    background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    padding: 0.8vw 1.5vw;
+    border: none;
+    border-radius: 0.4vw;
+    cursor: pointer;
+    font-size: clamp(0.8rem, 1vmin, 0.9rem);
+    font-weight: 500;
+    letter-spacing: 0.03vw;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.notice-form button:hover {
+    background: linear-gradient(90deg, #2980b9 0%, #1f618d 100%);
+    transform: translateY(-0.2vw);
+    box-shadow: 0 0.3vw 1vw rgba(41, 128, 185, 0.3);
+}
+
+.message {
+    padding: 0.8vw;
+    margin-bottom: 1.2vw;
+    border-radius: 0.4vw;
+    font-size: clamp(0.7rem, 0.9vmin, 0.8rem);
+    font-weight: 500;
+    animation: fadeIn 0.5s ease;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 0.06vw solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 0.06vw solid #f5c6cb;
+}
+
+.notice-item {
+    background: #ffffff;
+    padding: 1vw;
+    margin-bottom: 1vw;
+    border-radius: 0.5vw;
+    box-shadow: 0 0.25vw 1vw rgba(0, 0, 0, 0.05);
+    border-left: 0.25vw solid #3498db;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.notice-item:hover {
+    transform: translateY(-0.2vw);
+    box-shadow: 0 0.5vw spurious 1.5vw rgba(0, 0, 0, 0.08);
+}
+
+.notice-item h4 {
+    margin: 0 0 0.5vw 0;
+    font-size: clamp(0.9rem, 1.1vmin, 1rem);
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.notice-item p {
+    margin: 0 0 0.5vw 0;
+    font-size: clamp(0.8rem, 1vmin, 0.9rem);
+    color: #34495e;
+}
+
+.notice-item small {
+    display: block;
+    font-size: clamp(0.7rem, 0.8vmin, 0.8rem);
+    color: #7f8c8d;
+    margin-bottom: 0.5vw;
+}
+
+.notice-item a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: clamp(0.8rem, 1vmin, 0.9rem);
+    transition: color 0.3s ease;
+}
+
+.notice-item a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(0.6vw);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack sidebar, main, side-panel */
+    }
+
+    .main-content {
+        width: 100vw;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 3vw;
+        border-radius: 0;
+        min-height: 100dvh;
+    }
+
+    .side-panel {
+        width: 100vw;
+        position: relative;
+        height: auto;
+        padding: 3vw;
+        border-left: none;
+        border-bottom: 0.06vw solid rgba(255, 255, 255, 0.1);
+    }
+
+    .side-panel h3 {
+        font-size: clamp(1rem, 1.5vmin, 1.2rem);
+    }
+
+    .notice-form {
+        width: 90vw;
+        max-width: 90vw;
+        padding: 3vw;
+        margin: 0 auto;
+    }
+
+    .notice-form input,
+    .notice-form textarea {
+        padding: 2vw;
+        font-size: clamp(0.9rem, 1.8vmin, 1rem);
+    }
+
+    .notice-form button {
+        padding: 2vw 4vw;
+        font-size: clamp(0.9rem, 1.8vmin, 1rem);
+    }
+
+    .dashboard-section {
+        margin-bottom: 4vw;
+    }
+
+    .dashboard-section h2 {
+        font-size: clamp(1.1rem, 1.7vmin, 1.3rem);
+    }
+
+    .notice-item {
+        padding: 2vw;
+    }
+
+    .notice-item h4 {
+        font-size: clamp(1rem, 1.5vmin, 1.1rem);
+    }
+
+    .notice-item p {
+        font-size: clamp(0.9rem, 1.3vmin, 1rem);
+    }
+
+    .notice-item small {
+        font-size: clamp(0.8rem, 1vmin, 0.9rem);
+    }
+
+    .notice-item a {
+        font-size: clamp(0.9rem, 1.3vmin, 1rem);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-content {
+        padding: 4vw;
+    }
+
+    .side-panel {
+        padding: 4vw;
+    }
+
+    .notice-form {
+        padding: 4vw;
+    }
+
+    .notice-form input,
+    .notice-form textarea {
+        padding: 3vw;
+    }
+
+    .notice-form button {
+        padding: 3vw 5vw;
+    }
+
+    .notice-item {
+        padding: 3vw;
+    }
+}

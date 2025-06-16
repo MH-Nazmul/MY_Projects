@@ -1,0 +1,275 @@
+/* CSS/offline_payments.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 80vw;
+    margin: 0 auto;
+    padding: 1.5vw;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Ensure vertical centering */
+    background: #2c3e50;
+    color: white;
+    padding: 1vw 1.5vw;
+    /* Reduced padding for tighter fit */
+    border-radius: 0.5vw 0.5vw 0 0;
+    margin-bottom: 1.5vw;
+}
+
+.header h1 {
+    font-size: 2.2vw;
+    font-weight: 500;
+    line-height: 1.2;
+    /* Match button line height */
+}
+
+.logout-btn {
+    background: #e74c3c;
+    color: white;
+    padding: 0.5vw 1vw;
+    /* Reduced padding */
+    border: none;
+    border-radius: 0.4vw;
+    text-decoration: none;
+    font-size: 1.1vw;
+    line-height: 1.2;
+    /* Tighten line height */
+    display: inline-flex;
+    align-items: center;
+    /* Center text vertically within button */
+    transition: background 0.3s;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+}
+
+.main-content {
+    background: white;
+    padding: 1.5vw;
+    border-radius: 0.5vw;
+    box-shadow: 0 0.3vw 0.5vw rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 2vw;
+    color: #2c3e50;
+    margin-bottom: 1.5vw;
+}
+
+.message {
+    padding: 1vw 1.2vw;
+    margin-bottom: 1.2vw;
+    border-radius: 0.4vw;
+    background: #dff0d8;
+    color: #3c763d;
+    font-size: 1.2vw;
+}
+
+.message:where([style*="Error"]) {
+    background: #f2dede;
+    color: #a94442;
+}
+
+.filter-form,
+.payment-form {
+    display: flex;
+    align-items: center;
+    /* Center all items vertically */
+    gap: 1vw;
+    margin-bottom: 1.5vw;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    /* Changed to row to keep label and input inline */
+    align-items: center;
+    /* Vertically center label and input */
+    gap: 0.5vw;
+    flex: 1;
+    min-width: 20vw;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1vw;
+    align-items: center;
+    /* Center buttons vertically */
+}
+
+label {
+    font-size: 1.3vw;
+    color: #7f8c8d;
+    font-weight: 500;
+    white-space: nowrap;
+    /* Prevent label text from wrapping */
+    width: auto;
+    /* Allow label to size naturally */
+    max-width: 15vw;
+    /* Limit label width to prevent overflow */
+}
+
+select,
+input[type="text"],
+input[type="number"] {
+    padding: 0.8vw;
+    border: 1px solid #ddd;
+    border-radius: 0.4vw;
+    font-size: 1.2vw;
+    width: 100%;
+    max-width: 25vw;
+    background: #f9f9f9;
+    line-height: 1.2;
+    /* Match button line height */
+    box-sizing: border-box;
+    /* Ensure padding doesn't affect height */
+}
+
+select:focus,
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+button {
+    padding: 0.5vw 1vw;
+    /* Consistent with logout button */
+    border: none;
+    border-radius: 0.4vw;
+    font-size: 1.1vw;
+    cursor: pointer;
+    transition: background 0.3s;
+    height: auto;
+    /* Adjust to content */
+    line-height: 1.2;
+    /* Tighten line height */
+    display: inline-flex;
+    align-items: center;
+    /* Center text vertically */
+}
+
+button[name="filter"],
+button[name="pay"] {
+    background: #3498db;
+    color: white;
+}
+
+button[name="filter"]:hover,
+button[name="pay"]:hover {
+    background: #2980b9;
+}
+
+button[type="button"] {
+    background: #2ecc71;
+    color: white;
+}
+
+button[type="button"]:hover {
+    background: #27ae60;
+}
+
+.student-details {
+    padding: 1.2vw;
+    background: #ecf0f1;
+    border-radius: 0.4vw;
+    margin-bottom: 1.5vw;
+}
+
+.student-details h3 {
+    font-size: 1.6vw;
+    color: #2c3e50;
+}
+
+.student-details p {
+    font-size: 1.2vw;
+    color: #7f8c8d;
+}
+
+.dues-table-container {
+    max-height: 18vw;
+    overflow-y: auto;
+    margin-bottom: 1.5vw;
+    border: 1px solid #ddd;
+    border-radius: 0.4vw;
+}
+
+.dues-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dues-table thead {
+    background: #2c3e50;
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+.dues-table th,
+.dues-table td {
+    padding: 0.8vw;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.dues-table td {
+    font-size: 1.1vw;
+    color: #333;
+}
+
+@media (max-width: 600px) {
+
+    .filter-form,
+    .payment-form {
+        flex-direction: column;
+    }
+
+    .form-group {
+        min-width: 100%;
+        flex-direction: column;
+        /* Stack on mobile */
+    }
+
+    .header h1 {
+        font-size: 3vw;
+    }
+
+    .logout-btn {
+        font-size: 1.5vw;
+    }
+
+    select,
+    input[type="text"],
+    input[type="number"] {
+        max-width: 100%;
+    }
+
+    button {
+        padding: 0.7vw 1.2vw;
+        /* Slightly larger for touch */
+    }
+
+    label {
+        max-width: 100%;
+        /* Allow label to wrap on mobile if needed */
+    }
+}

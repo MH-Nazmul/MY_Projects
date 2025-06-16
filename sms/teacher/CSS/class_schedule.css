@@ -1,0 +1,274 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+main {
+    padding: 1.5vw;
+    width: calc(100% - 0vw);
+    min-height: 100vh;
+    background: #f8f9fa; /* Light, premium background */
+    box-sizing: border-box;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.dashboard-section {
+    margin-bottom: 2vw;
+    background: #ffffff;
+    padding: 1.2vw;
+    border-radius: 0.8vw;
+    box-shadow: 0 0.2vw 0.8vw rgba(0, 0, 0, 0.05); /* Subtle, premium shadow */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dashboard-section h2 {
+    color: #2c3e50;
+    border-bottom: 0.15vw solid #3498db;
+    padding-bottom: 0.5vw;
+    margin-bottom: 1vw;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+th, td {
+    border: 0.1vw solid #e0e0e0;
+    padding: 0.8vw;
+    text-align: left;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+}
+
+th {
+    background: linear-gradient(135deg, #3498db, #2980b9); /* Premium gradient */
+    color: #ffffff;
+    font-weight: 600;
+}
+
+td {
+    background: #ffffff;
+    transition: background 0.2s ease;
+}
+
+td:hover {
+    background: #f1f5f9; /* Subtle hover effect */
+}
+
+.action-form {
+    display: inline;
+    margin-right: 0.5vw;
+}
+
+.action-form button {
+    padding: 0.5vw 1vw;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    border-radius: 0.4vw;
+    cursor: pointer;
+    font-size: clamp(0.7rem, 1vw, 0.9rem);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.action-form button:hover {
+    background: linear-gradient(135deg, #2980b9, #1f618d);
+    transform: scale(1.05); /* Premium hover effect */
+}
+
+.message {
+    padding: 0.8vw 1.5vw;
+    margin-bottom: 1vw;
+    border-radius: 0.4vw;
+    z-index: 10;
+    position: relative;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 0.1vw solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 0.1vw solid #f5c6cb;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker overlay */
+    z-index: 1000;
+    animation: fadeIn 0.3s ease; /* Premium fade-in */
+}
+
+.modal-content {
+    background: #ffffff;
+    margin: 10vh auto;
+    padding: 1.5vw;
+    border-radius: 0.8vw;
+    width: 25vw;
+    max-width: 90%;
+    box-shadow: 0 0.4vw 1.2vw rgba(0, 0, 0, 0.15); /* Premium shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: slideIn 0.3s ease; /* Premium slide-in */
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 0.5vw;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+}
+
+.modal-content input, .modal-content textarea {
+    width: 100%;
+    padding: 0.6vw;
+    margin-bottom: 1vw;
+    border: 0.1vw solid #ddd;
+    border-radius: 0.4vw;
+    box-sizing: border-box;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+}
+
+.modal-content button {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 0.6vw 1.2vw;
+    border: none;
+    border-radius: 0.4vw;
+    cursor: pointer;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.modal-content button:hover {
+    background: linear-gradient(135deg, #2980b9, #1f618d);
+    transform: scale(1.05);
+}
+
+.close {
+    float: right;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    cursor: pointer;
+    color: #2c3e50;
+    transition: color 0.2s ease;
+}
+
+.close:hover {
+    color: #e74c3c; /* Premium red on hover */
+}
+
+/* Animation for premium feel */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-2vh); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Tablet and smaller screens */
+@media screen and (max-width: 768px) {
+    main {
+        margin-left: 0; /* Adjust for hidden sidebar from teacher_sidebar.php */
+        width: 100%;
+        padding: 2vw;
+    }
+    .dashboard-section {
+        padding: 1.5vw;
+        margin-bottom: 1.5vw;
+    }
+    .dashboard-section h2 {
+        font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    }
+    th, td {
+        padding: 0.6vw;
+        font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+    }
+    .action-form button {
+        padding: 0.6vw 1.2vw;
+        font-size: clamp(0.6rem, 1vw, 0.8rem);
+    }
+    .message {
+        padding: 1vw 1.5vw;
+        font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+    }
+    .modal-content {
+        width: 40vw;
+        padding: 2vw;
+    }
+    .modal-content input, .modal-content textarea {
+        padding: 0.8vw;
+    }
+    .modal-content button {
+        padding: 0.8vw 1.5vw;
+    }
+}
+
+/* Mobile devices */
+@media screen and (max-width: 480px) {
+    .dashboard-section {
+        padding: 2vw;
+        margin-bottom: 2vw;
+    }
+    .dashboard-section h2 {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+    table {
+        display: block;
+        overflow-x: auto; /* Scrollable table on mobile */
+        white-space: nowrap;
+    }
+    th, td {
+        padding: 1vw;
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+    }
+    .action-form {
+        margin-right: 1vw;
+    }
+    .action-form button {
+        padding: 1vw 1.5vw;
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+    }
+    .message {
+        padding: 1.5vw 2vw;
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+    }
+    .modal-content {
+        width: 80vw;
+        padding: 3vw;
+    }
+    .modal-content label {
+        font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+    }
+    .modal-content input, .modal-content textarea {
+        padding: 1vw;
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+    }
+    .modal-content button {
+        padding: 1vw 2vw;
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+    }
+    .close {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+}

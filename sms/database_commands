@@ -1,0 +1,760 @@
+-- Drop existing database if needed
+DROP DATABASE IF EXISTS mhnam;
+
+CREATE DATABASE mhnam;
+
+USE mhnam;
+
+-- 1st_table
+CREATE TABLE admins (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    phone VARCHAR(15) DEFAULT NULL
+);
+
+-- 2nd_table
+CREATE TABLE classes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    class_name VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 16th_table
+CREATE TABLE teachers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    fname VARCHAR(50),
+    lname VARCHAR(50),
+    subject VARCHAR(50),
+    phone VARCHAR(15) NOT NULL,
+    photo LONGBLOB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 3rd_table
+CREATE TABLE class_routines (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    class VARCHAR(10) NOT NULL,
+    day ENUM(
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
+    ) NOT NULL,
+    period_number INT NOT NULL,
+    subject_name VARCHAR(100) NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    teacher_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id) ON DELETE SET NULL,
+    UNIQUE (class, day, period_number)
+);
+
+-- 15th_table
+CREATE TABLE subjects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    subject_name VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 4th_table
+-- Relationship tables (depend on core entities)
+CREATE TABLE class_subjects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    class_id INT NOT NULL,
+    subject_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES subjects (id) ON DELETE CASCADE,
+    UNIQUE (class_id, subject_id)
+);
+
+-- 5th_table
+CREATE TABLE complains (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 6th table
+CREATE TABLE events (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    event_title VARCHAR(255) NOT NULL,
+    event_description TEXT NOT NULL,
+    event_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 7nt_table
+-- Operational tables (depend on core entities)
+CREATE TABLE exams (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    class VARCHAR(10) NOT NULL,
+    semester ENUM('sem1', 'sem2') NOT NULL,
+    exam_name VARCHAR(100) NOT NULL,
+    exam_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (class, semester)
+);
+
+-- 13th_table
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    fname VARCHAR(50),
+    lname VARCHAR(50),
+    class VARCHAR(10),
+    section VARCHAR(5),
+    roll_no VARCHAR(20) UNIQUE,
+    mother_name VARCHAR(100),
+    father_name VARCHAR(100),
+    parents_mobile VARCHAR(15) NOT NULL,
+    photo BLOB,
+    due_payments DECIMAL(10, 2) DEFAULT 0.00,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 8th_table
+CREATE TABLE fee_increments (
+    student_id INT PRIMARY KEY,
+    last_fee_increment DATE DEFAULT '2025-01-01',
+    FOREIGN KEY (student_id) REFERENCES students (id)
+);
+
+-- 9th_table
+CREATE TABLE gallery_images (
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    image_data LONGBLOB NOT NULL,
+    preference INT(11) DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+-- 10th_table
+-- Financial tables
+CREATE TABLE monthly_fees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    class_name VARCHAR(10),
+    monthly_fee DECIMAL(10, 2) NOT NULL,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_class (class_name)
+);
+
+-- 11th_table
+CREATE TABLE schedules (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    day VARCHAR(10) DEFAULT NULL,
+    period INT(11) DEFAULT NULL,
+    start_time TIME DEFAULT NULL,
+    end_time TIME DEFAULT NULL,
+    subject_id INT(11) DEFAULT NULL,
+    teacher_id INT(11) DEFAULT NULL,
+    class_id INT(11) DEFAULT NULL,
+    FOREIGN KEY (subject_id) REFERENCES subjects (id) ON DELETE CASCADE,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id) ON DELETE CASCADE,
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE CASCADE,
+    CONSTRAINT unique_schedule UNIQUE (day, period, class_id)
+);
+
+-- 12th_table
+CREATE TABLE settings (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    school_name VARCHAR(255) NOT NULL,
+    tag_line VARCHAR(255) NOT NULL,
+    about_text TEXT NOT NULL,
+    background_image LONGBLOB,
+    logo_image LONGBLOB,
+    address VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 14th_table
+CREATE TABLE student_results (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    exam_id INT NOT NULL,
+    result VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (exam_id) REFERENCES exams (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE (student_id, exam_id)
+);
+
+-- 17th_table
+CREATE TABLE teacher_subjects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT NOT NULL,
+    class_subject_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (class_subject_id) REFERENCES class_subjects (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+-- 18th_table
+CREATE TABLE transactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    transaction_type ENUM('payment', 'charge') NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    description VARCHAR(255),
+    transaction_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    class_name VARCHAR(10),
+    FOREIGN KEY (student_id) REFERENCES students (id)
+);
+
+-- 19th_table
+CREATE TABLE weekends (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    day ENUM(
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
+    ) NOT NULL,
+    UNIQUE KEY unique_day (day)
+);
+
+-- 20th_table
+CREATE TABLE IF NOT EXISTS schedule_changes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    class_routine_id INT,
+    action VARCHAR(20) NOT NULL, -- 'reschedule' or 'cancel'
+    original_date DATE,
+    new_date DATE,
+    explanation TEXT,
+    change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id),
+    FOREIGN KEY (class_routine_id) REFERENCES class_routines (id)
+);
+
+-- 21th_table
+CREATE TABLE IF NOT EXISTS exam_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    class_routine_id INT,
+    subject_name VARCHAR(100),
+    class VARCHAR(50),
+    requested_date DATE,
+    original_date DATE,
+    explanation TEXT,
+    status VARCHAR(20) DEFAULT 'pending',
+    request_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id),
+    FOREIGN KEY (class_routine_id) REFERENCES class_routines (id)
+);
+
+-- 22th_table
+CREATE TABLE attendance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT NOT NULL,
+    student_id INT NOT NULL,
+    class VARCHAR(100) NOT NULL,
+    date DATE NOT NULL,
+    status ENUM('present', 'absent', 'late') NOT NULL DEFAULT 'absent',
+    UNIQUE KEY unique_attendance (
+        teacher_id,
+        student_id,
+        class,
+        date
+    )
+);
+
+-- 23rd_table
+CREATE TABLE IF NOT EXISTS grades (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    student_id INT,
+    class VARCHAR(50),
+    subject_name VARCHAR(100),
+    grade VARCHAR(2), -- e.g., A+, A, A-, etc.
+    semester VARCHAR(50), -- e.g., 'Summer 2025'
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id),
+    FOREIGN KEY (student_id) REFERENCES students (id)
+);
+
+-- 24th_table
+CREATE TABLE IF NOT EXISTS announcements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    class VARCHAR(50),
+    title VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    announcement_date DATE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id)
+);
+
+-- 25th_table
+
+CREATE TABLE IF NOT EXISTS urgent_notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    message TEXT NOT NULL,
+    status VARCHAR(20) DEFAULT 'pending',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id)
+);
+
+-- 26th_table
+CREATE TABLE payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    tran_id VARCHAR(100),
+    amount DECIMAL(10, 2),
+    status VARCHAR(20),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students (id)
+);
+
+-- 27th_table
+CREATE TABLE IF NOT EXISTS `orders` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `tran_id` varchar(255) NOT NULL,
+    `amount` decimal(10, 2) NOT NULL,
+    `currency` varchar(10) NOT NULL,
+    `status` varchar(20) NOT NULL,
+    `customer_name` varchar(255) NOT NULL,
+    `customer_email` varchar(255) NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+-- 28th_table
+CREATE TABLE IF NOT EXISTS student_dues (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending', -- 'pending', 'paid'
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students (id)
+);
+
+-- 29th table
+CREATE TABLE assignments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT NOT NULL,
+    class VARCHAR(100) NOT NULL,
+    subject VARCHAR(100) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    due_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id)
+);
+
+-- 30th Table for fee types (e.g., Monthly Tuition, Semester Exam, Library)
+CREATE TABLE fee_types (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    frequency ENUM(
+        'monthly',
+        'semester',
+        'one-time'
+    ) NOT NULL,
+    default_amount DECIMAL(10, 2) NOT NULL,
+    INDEX idx_name (name)
+);
+
+-- 31st Table for student fees/dues
+CREATE TABLE fees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    class_id INT NOT NULL,
+    fee_type_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    status ENUM('paid', 'pending', 'overdue') NOT NULL,
+    due_date DATE,
+    paid_date DATE DEFAULT NULL,
+    receipt_no VARCHAR(50) UNIQUE DEFAULT NULL,
+    month VARCHAR(7) DEFAULT NULL COMMENT 'e.g., 2025-07 for monthly fees',
+    semester VARCHAR(10) DEFAULT NULL COMMENT 'e.g., 2025-S1 for semester fees',
+    FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE RESTRICT,
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE RESTRICT,
+    FOREIGN KEY (fee_type_id) REFERENCES fee_types (id) ON DELETE RESTRICT,
+    INDEX idx_student_id (student_id),
+    INDEX idx_class_id (class_id),
+    INDEX idx_status (status)
+);
+
+-- 32nd Table for logging fee changes (effective next month/semester)
+CREATE TABLE fee_changes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    class_id INT NOT NULL,
+    fee_type_id INT NOT NULL,
+    old_amount DECIMAL(10, 2) NOT NULL,
+    new_amount DECIMAL(10, 2) NOT NULL,
+    effective_date DATE NOT NULL,
+    admin_id INT NOT NULL,
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE RESTRICT,
+    FOREIGN KEY (fee_type_id) REFERENCES fee_types (id) ON DELETE RESTRICT,
+    FOREIGN KEY (admin_id) REFERENCES admins (id) ON DELETE RESTRICT,
+    INDEX idx_class_id (class_id),
+    INDEX idx_effective_date (effective_date)
+);
+
+-- 33rd Table for salary scales (e.g., Scale 1, Scale 2)
+CREATE TABLE salary_scales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    scale_name VARCHAR(50) NOT NULL,
+    base_amount DECIMAL(10, 2) NOT NULL,
+    INDEX idx_scale_name (scale_name)
+);
+
+-- 34th Table for staff
+CREATE TABLE staff (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    role ENUM('teacher', 'admin', 'support') NOT NULL,
+    scale_id INT DEFAULT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL COMMENT 'Hashed password',
+    FOREIGN KEY (scale_id) REFERENCES salary_scales (id) ON DELETE SET NULL,
+    INDEX idx_role (role),
+    INDEX idx_email (email)
+);
+
+-- 35th Table for staff salaries
+
+CREATE TABLE salaries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    staff_id INT NOT NULL,
+    scale_id INT NOT NULL,
+    base_amount DECIMAL(10, 2) NOT NULL,
+    bonuses DECIMAL(10, 2) DEFAULT 0.00,
+    deductions DECIMAL(10, 2) DEFAULT 0.00,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    month VARCHAR(7) NOT NULL COMMENT 'e.g., 2025-07',
+    status ENUM('paid', 'unpaid') NOT NULL,
+    paid_date DATE DEFAULT NULL,
+    payslip_no VARCHAR(50) UNIQUE DEFAULT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff (id) ON DELETE RESTRICT,
+    FOREIGN KEY (scale_id) REFERENCES salary_scales (id) ON DELETE RESTRICT,
+    INDEX idx_staff_id (staff_id),
+    INDEX idx_month (month),
+    INDEX idx_status (status)
+);
+
+-- 36th Table for expense categories
+CREATE TABLE expense_categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    budget_limit DECIMAL(10, 2) DEFAULT NULL,
+    INDEX idx_name (name)
+);
+
+-- 37th Table for expenses
+CREATE TABLE expenses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    description TEXT NOT NULL,
+    date DATE NOT NULL,
+    receipt_path VARCHAR(255) DEFAULT NULL,
+    status ENUM(
+        'pending',
+        'approved',
+        'rejected'
+    ) NOT NULL,
+    submitted_by INT NOT NULL,
+    approved_by INT DEFAULT NULL,
+    FOREIGN KEY (category_id) REFERENCES expense_categories (id) ON DELETE RESTRICT,
+    FOREIGN KEY (submitted_by) REFERENCES staff (id) ON DELETE RESTRICT,
+    FOREIGN KEY (approved_by) REFERENCES admins (id) ON DELETE SET NULL,
+    INDEX idx_date (date),
+    INDEX idx_status (status)
+);
+
+-- 38th Table for audit log
+CREATE TABLE audit_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    action VARCHAR(255) NOT NULL,
+    details TEXT NOT NULL,
+    timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES staff (id) ON DELETE RESTRICT,
+    INDEX idx_user_id (user_id),
+    INDEX idx_timestamp (timestamp)
+);
+
+-- 39th table
+
+CREATE TABLE accountants (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    phone VARCHAR(15),
+    address VARCHAR(255) DEFAULT NULL,
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP NULL DEFAULT NULL
+);
+
+-- 40th table
+CREATE TABLE offline_payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    accountant_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    transaction_id VARCHAR(20) NOT NULL UNIQUE,
+    notes VARCHAR(255) DEFAULT NULL,
+    FOREIGN KEY (student_id) REFERENCES students (id),
+    FOREIGN KEY (accountant_id) REFERENCES accountants (id)
+);
+
+-- 41st table
+
+CREATE TABLE semesters (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    class_id INT NOT NULL,
+    semester_number TINYINT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE CASCADE
+);
+-- triggers
+/*
+DELIMITER / /
+
+CREATE TRIGGER after_student_dues_insert
+AFTER INSERT ON student_dues
+FOR EACH ROW
+BEGIN
+UPDATE students
+SET due_payments = (
+SELECT COALESCE(SUM(amount), 0)
+FROM student_dues
+WHERE student_id = NEW.student_id AND status = 'pending'
+)
+WHERE id = NEW.student_id;
+END;//
+
+CREATE TRIGGER after_student_dues_update
+AFTER UPDATE ON student_dues
+FOR EACH ROW
+BEGIN
+UPDATE students
+SET due_payments = (
+SELECT COALESCE(SUM(amount), 0)
+FROM student_dues
+WHERE student_id = OLD.student_id AND status = 'pending'
+)
+WHERE id = OLD.student_id;
+END;//
+
+CREATE TRIGGER after_student_dues_delete
+AFTER DELETE ON student_dues
+FOR EACH ROW
+BEGIN
+UPDATE students
+SET due_payments = (
+SELECT COALESCE(SUM(amount), 0)
+FROM student_dues
+WHERE student_id = OLD.student_id AND status = 'pending'
+)
+WHERE id = OLD.student_id;
+END;//
+
+DELIMITER ;
+*/
+
+-- for testing
+
+-- Insert admin
+insert into
+    admins (username, password, phone)
+VALUES (
+        'mh',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        '01790876259'
+    );
+
+-- Insert into teachers
+INSERT INTO
+    teachers (
+        username,
+        password,
+        fname,
+        lname,
+        subject,
+        phone
+    )
+VALUES (
+        'mitu',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        'Nasrin',
+        'Akter',
+        'Math',
+        '12345678904'
+    );
+
+insert into
+    accountants (username, password, phone)
+VALUES (
+        'mh',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        '01790876259'
+    );
+
+-- insert into student_due
+INSERT INTO
+    students (
+        username,
+        password,
+        parents_mobile
+    )
+VALUES (
+        'nam',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        '01790876259'
+    ),
+    (
+        'hridoy',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        '01790876259'
+    ),
+    (
+        'ashraful',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        '01790876259'
+    ),
+    (
+        'shariful',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        '01790876259'
+    ),
+    (
+        'shamim',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        '01790876259'
+    ),
+    (
+        'sumon',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        '01790876259'
+    ),
+    (
+        'rifat',
+        '$2y$10$YcP9IJ3EiBs/1yytUJ6Ste2gS1QPa18xH.o4BxTHHsoVdMO4yiULm',
+        '01790876259'
+    );
+
+-- insert into student_due
+INSERT INTO
+    student_dues (
+        student_id,
+        amount,
+        description,
+        status
+    )
+VALUES (
+        1,
+        100.00,
+        'Exam Fee - May 2025',
+        'pending'
+    ),
+    (
+        1,
+        500.00,
+        'Tuition Fee - May 2025',
+        'pending'
+    ),
+    (
+        2,
+        100.00,
+        'Exam Fee - May 2025',
+        'pending'
+    ),
+    (
+        2,
+        500.00,
+        'Tuition Fee - May 2025',
+        'pending'
+    ),
+    (
+        3,
+        100.00,
+        'Exam Fee - May 2025',
+        'pending'
+    ),
+    (
+        3,
+        500.00,
+        'Tuition Fee - May 2025',
+        'pending'
+    ),
+    (
+        4,
+        100.00,
+        'Exam Fee - May 2025',
+        'pending'
+    ),
+    (
+        4,
+        500.00,
+        'Tuition Fee - May 2025',
+        'pending'
+    ),
+    (
+        5,
+        100.00,
+        'Exam Fee - May 2025',
+        'pending'
+    ),
+    (
+        5,
+        500.00,
+        'Tuition Fee - May 2025',
+        'pending'
+    ),
+    (
+        6,
+        100.00,
+        'Exam Fee - May 2025',
+        'pending'
+    ),
+    (
+        6,
+        500.00,
+        'Tuition Fee - May 2025',
+        'pending'
+    ),
+    (
+        7,
+        100.00,
+        'Exam Fee - May 2025',
+        'pending'
+    ),
+    (
+        7,
+        500.00,
+        'Tuition Fee - May 2025',
+        'pending'
+    );
+
+-- to check foregin key conflicts
+-- SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME
+-- FROM information_schema.KEY_COLUMN_USAGE
+-- WHERE REFERENCED_TABLE_NAME = 'table_a'
+--  AND REFERENCED_TABLE_SCHEMA = 'your_database_name';
+
+-- to remove foreing key from a table
+-- First drop the constraint from B
+-- ALTER TABLE B DROP FOREIGN KEY fk_a_id; -- or whatever the constraint name is
+-- Now drop table A
+-- DROP TABLE A;

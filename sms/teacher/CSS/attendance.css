@@ -1,0 +1,248 @@
+
+/* attendance.css */
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+main {
+    padding: 1vw;
+    width: calc(100% - 0vw);
+    min-height: 100vh;
+    background: #f4f6f9;
+    box-sizing: border-box;
+}
+
+.dashboard-section {
+    background: white;
+    padding: 1vw;
+    border-radius: 0.8vw;
+    box-shadow: 0 0.2vw 0.5vw rgba(0, 0, 0, 0.1);
+    width: 100%;
+    overflow: visible;
+}
+
+.dashboard-section h2 {
+    color: #2c3e50;
+    border-bottom: 0.2vw solid #3498db;
+    padding-bottom: 0.5vw;
+    margin-bottom: 0.5vw;
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+}
+
+.class-list {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 1.5vw;
+    margin-bottom: 0.5vw;
+    width: 100%;
+    max-width: 100%;
+}
+
+.class-list label {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: clamp(0.8rem, 1vw, 1rem);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.class-list select {
+    padding: 0.5vw;
+    border: 0.1vw solid #ddd;
+    border-radius: 0.4vw;
+    font-size: clamp(0.8rem, 1vw, 1rem);
+    width: 10vw;
+    flex-grow: 0;
+}
+
+.table-container {
+    max-height: calc(100vh - 13vw);
+    overflow-x: auto;
+    overflow-y: auto;
+    margin-top: 0.5vw;
+    position: relative;
+}
+
+.attendance-table {
+    width: max-content;
+    border-collapse: collapse;
+    font-size: clamp(0.8rem, .7vw, 1rem);
+}
+
+.attendance-table th, .attendance-table td {
+    border: 0.1vw solid #ddd;
+    padding: 0.2vw;
+    text-align: center;
+    min-width: 1.7vw;
+}
+
+.attendance-table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.attendance-table th.student-id, .attendance-table th.student-name {
+    position: sticky;
+    left: 0;
+    background-color: #3498db;
+    z-index: 15;
+}
+
+.attendance-table td.student-id, .attendance-table td.student-name {
+    position: sticky;
+    left: 0;
+    background: #f9f9f9;
+    font-weight: bold;
+    text-align: left;
+    z-index: 5;
+}
+
+.attendance-table td.student-id {
+    left: 0;
+    min-width: 3vw;
+}
+
+.attendance-table td.student-name {
+    left: 0vw;
+    min-width: 10vw;
+}
+
+.attendance-table th.student-name {
+    left: 0vw;
+}
+
+.attendance-table td.weekend {
+    background-color: #f0f0f0;
+}
+
+.attendance-table td input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.message {
+    position: fixed;
+    top: 2vw;
+    right: 2vw;
+    padding: 1vw 2vw;
+    border-radius: 0.6vw;
+    box-shadow: 0 0.2vw 0.5vw rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+    max-width: 30vw;
+    font-size: clamp(0.8rem, 1.3vw, 1rem);
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 0.1vw solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 0.1vw solid #f5c6cb;
+}
+
+/* Tablet and smaller screens */
+@media screen and (max-width: 768px) {
+    main {
+        margin-left: 0; /* Adjust for hidden sidebar from teacher_sidebar.php */
+        width: 100%;
+        padding: 1.5vw;
+    }
+    .dashboard-section {
+        padding: 1.5vw;
+    }
+    .class-list {
+        gap: 1vw;
+        width: 100%;
+    }
+    .class-list label {
+        font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+    }
+    .class-list select {
+        padding: 0.6vw;
+        font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+        width: 25vw;
+    }
+    .attendance-table {
+        font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+    }
+    .attendance-table th, .attendance-table td {
+        padding: 0.5vw;
+        min-width: 4vw;
+    }
+    .attendance-table td.student-id {
+        min-width: 5vw;
+    }
+    .attendance-table td.student-name {
+        min-width: 12vw;
+    }
+    .table-container {
+        max-height: calc(100vh - 15vw);
+    }
+    .message {
+        right: 1.5vw;
+        top: 1.5vw;
+        max-width: 40vw;
+        font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+    }
+}
+
+/* Mobile devices */
+@media screen and (max-width: 480px) {
+    .dashboard-section {
+        padding: 2vw;
+    }
+    .dashboard-section h2 {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+    .class-list {
+        flex-wrap: wrap; /* Allow wrapping for better fit */
+        gap: 1.5vw;
+    }
+    .class-list label {
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+    }
+    .class-list select {
+        padding: 1vw;
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+        width: 30vw;
+    }
+    .attendance-table {
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+    }
+    .attendance-table th, .attendance-table td {
+        padding: 0.8vw;
+        min-width: 3.5vw;
+    }
+    .attendance-table td.student-id {
+        min-width: 6vw;
+    }
+    .attendance-table td.student-name {
+        min-width: 10vw;
+    }
+    .attendance-table td input[type="checkbox"] {
+        transform: scale(1.1);
+    }
+    .table-container {
+        max-height: calc(100vh - 20vw);
+    }
+    .message {
+        top: 2vw;
+        right: 2vw;
+        padding: 1.5vw 2.5vw;
+        max-width: 50vw;
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+    }
+}
